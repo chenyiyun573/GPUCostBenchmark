@@ -50,3 +50,45 @@ gpu_info = parse_nvidia_smi_output(output.decode())
 print_gpu_power_info(gpu_info)
 ```
 
+
+there are other ways to get real-time power consumption data of the A100 GPU besides using `nvidia-smi`.
+
+
+One way is to use the real-time power monitoring feature provided by the A100's power management subsystem (PMS). The PMS exposes a variety of performance and power-related data through registers that can be read by software. You can use the NVIDIA Data Center GPU Manager (DCGM) API to access these registers on Linux systems. Here is an example Python script that uses DCGM to get the real-time power consumption of the A100 GPU:
+
+```
+import dcgm_structs
+import dcgm_agent
+import dcgmvalue
+
+# Define a function to get the real-time power consumption of the GPU
+def get_gpu_power_usage():
+    # Create a DCGM handle
+    handle = dcgm_agent.dcgmInit()
+
+    # Get the GPU ID of the A100
+    gpu_list = dcgm_agent.dcgmGetAllDevices(handle)
+    gpu_id = next((gpu.id for gpu in gpu_list if gpu.attributes.arch == dcgm_structs.DCGM_GPU_ARCH_VOLTA), None)
+
+    # Get the current power usage of the GPU from the power management subsystem
+    field_id = dcgm_structs.DCGM_FI_DEV_POWER_USAGE
+    field_value = dcgm_agent.dcgmEntityGetLatestValues(handle, dcgm_structs.DCGM_FE_GPU, gpu_id, field_id)[0]
+    power_usage_watts = dcgmvalue.DcgmFloat64(field_value.value).value
+
+    # Cleanup the DCGM handle
+    dcgm_agent.dcgmShutdown()
+
+    return power_usage_watts
+
+# Print the real-time power consumption of the GPU
+power_usage_watts = get_gpu_power_usage()
+print(f"GPU Power Usage (W): {power_usage_watts:.2f}")
+```
+
+This script uses the DCGM API to create a handle to the NVIDIA Data Center GPU Manager, get the GPU ID of the A100, and get the current power usage of the GPU from the power management subsystem's `DCGM_FI_DEV_POWER_USAGE` field.
+
+
+Note that to use this script, you will need to install the NVIDIA Data Center GPU Manager (`dcgm`) library and Python bindings. You can download the library and bindings from the NVIDIA website.
+
+
+Another way to get real-time power consumption data of the A100 GPU is to use hardware monitoring tools such as those provided by vendors like Lm-Sensors or Zabbix. These tools can monitor the power consumption of various system components, including the GPU, by reading data from sensors on the hardware. However, they typically require more configuration and setup than using `nvidia-smi` or DCGM.
