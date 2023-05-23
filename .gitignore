@@ -3,5 +3,5 @@
 ./RelationExperiments/batchsize_power/plot
 ./RelationExperiments/inqury_method/in
 ./RelationExperiments/inqury_method/out
-
+./RelationExperiments/inqury_freq/results
 
