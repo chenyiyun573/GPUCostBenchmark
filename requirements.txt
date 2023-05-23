@@ -1,0 +1,3 @@
+torch==<version>
+torchvision==<version>
+pynvml==<version>
