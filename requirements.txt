@@ -1,3 +1,5 @@
-torch==<version>
-torchvision==<version>
-pynvml==<version>
+torch
+torchvision
+pynvml
+pandas
+matplotlib

@@ -1,6 +1,5 @@
 Next todo:
 
-create script to measure idle stage power usage.
 
 Investigate how superbench deal with batch size and dataset preprocess issue of NN.
 Investigate what kind of results superbench reports to user.
