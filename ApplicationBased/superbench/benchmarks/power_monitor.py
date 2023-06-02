@@ -30,7 +30,7 @@ class PowerMonitor:
         plt.plot(self.power_data)
         plt.xlabel('Time (1/100th second)')
         plt.ylabel('Power (W)')
-        plt.savefig('/home/superbench/v-yiyunchen/supercost/'+name)
+        plt.savefig('/home/superbench/v-yiyunchen/GPUCostBenchmark/'+name) #TODO
 
     
     def get_average_power(self, discard_ratio=0.2):

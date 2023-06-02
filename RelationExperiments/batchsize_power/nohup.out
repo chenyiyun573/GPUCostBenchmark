@@ -1,0 +1,23 @@
+get_relation.py:47: MatplotlibDeprecationWarning: The 'basex' parameter of __init__() has been renamed 'base' since Matplotlib 3.3; support for the old name will be dropped two minor releases later.
+  plt.xscale('log', basex=2)  # Use log scale for batch size
+get_relation.py:57: MatplotlibDeprecationWarning: The 'basex' parameter of __init__() has been renamed 'base' since Matplotlib 3.3; support for the old name will be dropped two minor releases later.
+  plt.xscale('log', basex=2)  # Use log scale for batch size
+One experimet done for batch size 1
+One experimet done for batch size 2
+One experimet done for batch size 4
+One experimet done for batch size 8
+One experimet done for batch size 16
+One experimet done for batch size 32
+One experimet done for batch size 64
+One experimet done for batch size 128
+One experimet done for batch size 256
+One experimet done for batch size 512
+One experimet done for batch size 1024
+One experimet done for batch size 2048
+One experimet done for batch size 4096
+One experimet done for batch size 8192
+One experimet done for batch size 16384
+One experimet done for batch size 32768
+One experimet done for batch size 65536
+One experimet done for batch size 131072
+One experimet done for batch size 262144

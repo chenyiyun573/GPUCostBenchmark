@@ -1,7 +1,9 @@
 RelationExperiments/idle/results
 RelationExperiments/batchsize_power/results
 RelationExperiments/batchsize_power/plot
-RelationExperiments/inqury_method/in
-RelationExperiments/inqury_method/out
-RelationExperiments/inqury_freq/results
-
+RelationExperiments/inquiry_method/in
+RelationExperiments/inquiry_method/out
+RelationExperiments/inquiry_freq/results
+RelationExperiments/inquiry_freq_with_stress/results
+RelationExperiments/batchsize_power2/results
+RelationExperiments/batchsize_power2/plot

@@ -3,3 +3,11 @@ torchvision
 pynvml
 pandas
 matplotlib
+
+
+
+colorlog
+omegaconf
+networkx
+transformers
+tcping

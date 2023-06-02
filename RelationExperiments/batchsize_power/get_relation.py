@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import time
 
 # Define the batch sizes you want to test
-batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
+batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 16384*2, 16384*4, 16384*8, 16384*16]  # 16384 * 16 will run out of memory
 
 # Create results directory if it doesn't exist
 os.makedirs('./results', exist_ok=True)
