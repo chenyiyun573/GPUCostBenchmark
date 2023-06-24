@@ -266,7 +266,7 @@ class ModelBenchmark(Benchmark):
         # The unit of step time should be millisecond.
         step_times = self._train_step(precision)
         power_monitor.stop()
-        power_monitor.plot('train.png')
+        # power_monitor.plot('train.png')
 
 
         step_times = self.__process_model_result(ModelAction.TRAIN, precision, step_times)
@@ -275,7 +275,7 @@ class ModelBenchmark(Benchmark):
             return False
 
         logger.info(
-            'Average train time - round: {}, model: {}, precision: {}, step time: {:.6f} ms, power metric: {:.6f} sample/(s*Watt), power statistic: {}'.format(
+            'Average train time - round: {}, model: {}, precision: {}, step time: {:.6f} ms, power metric: {:.6f} step/(s*Watt), power statistic: {}'.format(
                 self._curr_run_index, self._name, precision, statistics.mean(step_times), 1000/statistics.mean(step_times)/power_monitor.get_average_power(), power_monitor.calculate_power_statistics()
             )
         )
@@ -301,7 +301,7 @@ class ModelBenchmark(Benchmark):
         step_times = self._inference_step(precision)
 
         power_monitor.stop()
-        power_monitor.plot('inference.png')
+        # power_monitor.plot('inference.png')
 
         step_times = self.__process_model_result(ModelAction.INFERENCE, precision, step_times)
         if not step_times:
