@@ -36,7 +36,13 @@ python3 benchmark.py
 
 Replace `benchmark.py` with the appropriate script name if different.
 
+
+### 4. Choose Models in Application Workload (Optional)
+
+
 ### 4. Compile Hardware Workload (Optional)
+Currently, only fp32 and fp64 are supported and FLOPS metric is provided only for these two workload. 
+
 If you wish to add your own hardware workload, compile the CUDA code under folder `Hardware` by executing:
 
 ```sh
@@ -45,25 +51,19 @@ nvcc main_loop.cu gpu_hammer_src/kernel_*.cu -o main_loop -lnvidia-ml
 
 This command compiles the hardware workload part using the NVIDIA CUDA Compiler (nvcc) and links it with the NVIDIA Management Library.
 
-## Contribute
-You can contribute to this project by submitting issues or pull requests. Feel free to improve the code or add new features.
 
-## License
-This project is open source and available under the [MIT License](LICENSE).
-
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
-
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
-
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
-
+### 5. Result
+All results will be output into the folder `./results/`.
+1. model_results.md is for models trainning or inference.
+2. hammer.md is the FLOPS/watt metric for Hardware workload.
+3. See `./results/idle` for idle measurement results. 
 
 ## Disclaimer
+
+### Tasks on Multiple GPUs
+This power benchmark does not support distributed training on multiple GPUs or multiple nodes now.
+For idle measurement, it will record all GPU's data on the same node/machine.
+For workload running, it only record one GPU (index:0 by default) on the node/machine.
 
 ### Environmental Factors
 This power benchmark is focused on assessing the GPU's power efficiency and performance. It does not take into account various environmental factors that could affect the results. Specifically, the tool does not consider:
@@ -73,7 +73,7 @@ This power benchmark is focused on assessing the GPU's power efficiency and perf
 - Air pressure
 - Humidity
 
-Additionally, the influence of the power supply, the source of power, and various configurations on the GPU and server are also not accounted for. Users should be aware that these factors can have a significant impact on the performance and power consumption of the GPU.
+Additionally, the influence of the power supply, the source of power, and various configurations on the GPU and server are also not accounted for. Users should be aware that these factors may have a significant impact on the performance and power consumption of the GPU.
 
 ### Hardware Compatibility
 Currently, the GPU Power Benchmark tool supports only NVIDIA GPUs. Compatibility with GPUs from other manufacturers is not available at this time. Users are encouraged to verify the compatibility of their hardware before using this tool.
@@ -81,4 +81,11 @@ Currently, the GPU Power Benchmark tool supports only NVIDIA GPUs. Compatibility
 
 
 
+
+## Contribute
+You can contribute to this project by submitting issues or pull requests. Feel free to improve the code or add new features.
+
+## License
+The application workload part is based on Superbench by Microsoft. 
+This project is open source and available under the [MIT License](LICENSE).
 

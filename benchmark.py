@@ -35,24 +35,40 @@ def execute_python_script(script_path):
     process = subprocess.run(['python3', script_path], stdout=subprocess.PIPE, universal_newlines=True)
     return process.stdout
 
-if __name__ == '__main__':
-    os.makedirs('results', exist_ok=True)
 
-    print("PreExecute: Start measuring all GPUs' idle power and related statics. Please wait about 6 mins to finish it.")
+
+# Functions for different parts
+def pre_execute():
+    print("PreExecute: Start measuring all GPUs' idle power and related stats. Please wait about 6 mins to finish it.")
     # Running a Python script in the './PreExecute/' folder
     pre_execute_output = execute_python_script("./PreExecute/idle.py")
-    #print(pre_execute_output)
     print("PreExecute done.")
 
-    print('Hardware: Run GPU hardware stress test using complied .cu scripts. Please wait about X mins to finish it.')
+def hardware_execute():
+    print('Hardware: Run GPU hardware stress test using compiled .cu scripts. Please wait about 24 mins to finish it.')
     # Running the compiled CUDA program in the './Hardware/' folder
     output = execute_cuda_program("./Hardware/main_loop")
-    #print(output)
     print('Hardware Done.')
 
+def application_execute():
     print('Application: Train or infer using AI models in pytorch scripts. Please wait about X mins to finish it.')
     execute_models()
     print('Application Done.')
+
+# Main script
+if __name__ == '__main__':
+    os.makedirs('results', exist_ok=True)
+    
+    selected_parts = ["PreExecute","Hardware","Application"]
+    
+
+    if "PreExecute" in selected_parts:
+        pre_execute()
+    if "Hardware" in selected_parts:
+        hardware_execute()
+    if "Application" in selected_parts:
+        application_execute()
+
 
 
 

@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <fstream>
 #include <iostream>
-
+#include <cmath> 
 
 #define SAMPLING_FREQUENCY 10 // 10Hz
 
@@ -71,9 +71,9 @@ int main() {
     // Create a vector of function pointers to your workloads' interface functions.
     std::vector<cudaError_t (*)(cudaStream_t, int)> workloads = {
         
-        fp_hammer,
-        //fp32_hammer,
-        //fp64_hammer,
+        //fp_hammer,
+        fp32_hammer,  //15728640000 * 1024(nblk) = 16106127360000 FLO 
+        fp64_hammer,  //13107200000 * 1024(nblk) = 13421772800000 FLO (one FMA will be regarded as two FLO)
         
         //gmem_fp_hammer,
         //gmem_ld_hammer,
@@ -93,7 +93,7 @@ int main() {
     };
 
     // Define powerSamplingThread
-    pthread_t powerSamplingThread;  // Add this line
+    pthread_t powerSamplingThread;
 
     int workloadNum = 0;
     for (auto& workload : workloads) {
@@ -138,8 +138,68 @@ int main() {
         // Print completion update to terminal
         std::cout << "Completed workload number: " << workloadNum << std::endl;
     }
+    
+    std::ofstream markdownFile("./results/hammer.md");
+
+
+    markdownFile << "| Workload Name   | Total Time (s) | FLOPs | FLOPs/Watt | STD of Power (W) | Mean Power (W) | Range of Power (W) |\n";
+    markdownFile << "|-----------------|----------------|-------|------------|------------------|----------------|--------------------|\n";
+
+    std::vector<double> total_flops_list = {16106127360000.0, 13421772800000.0, /* ... other FLOPs values for other workloads ... */};
+    std::vector<std::string> workload_names = {
+        "fp32_hammer",
+        "fp64_hammer"
+        // add names for other workloads
+    };
+
+    for (int workloadIndex = 0; workloadIndex < workloadNum; workloadIndex++) {
+        std::string filename = "./results/hammer/powerData_" + std::to_string(workloadIndex) + ".csv";
+        std::ifstream file(filename);
+
+        std::vector<double> powerData;
+        std::string line;
+        std::getline(file, line); // Skip header line
+        while (std::getline(file, line)) {
+            unsigned int power_mW = std::stoi(line.substr(line.find(",") + 1));
+            powerData.push_back(static_cast<double>(power_mW) / 1000); // Convert to Watts
+        }
+        file.close();
+
+        // Calculate metrics
+        double total_time = (powerData.size() / static_cast<double>(SAMPLING_FREQUENCY)) - 16; // Subtract sleep time before and after kernel execution
+        double flops = total_flops_list[workloadIndex] / total_time;
+        
+        int trimSize = powerData.size() * 0.2;
+        double sum = 0.0, sumSq = 0.0, maxPower = 0.0, minPower = std::numeric_limits<double>::max();
+
+        for (int i = trimSize; i < powerData.size() - trimSize; i++) {
+            sum += powerData[i];
+            sumSq += powerData[i] * powerData[i];
+            maxPower = std::max(maxPower, powerData[i]);
+            minPower = std::min(minPower, powerData[i]);
+        }
+        
+        double mean = sum / (powerData.size() - 2 * trimSize);
+        double stdDev = std::sqrt((sumSq / (powerData.size() - 2 * trimSize)) - (mean * mean));
+        double flops_per_watt = total_flops_list[workloadIndex] / (total_time * mean);
+
+        // Output metrics to markdown file
+        markdownFile << "| " << workload_names[workloadIndex] << " | ";
+        markdownFile << total_time << "          | ";
+        markdownFile << flops << " | ";
+        markdownFile << flops_per_watt << " | ";
+        markdownFile << stdDev << "        | ";
+        markdownFile << mean << "        | ";
+        markdownFile << maxPower << " - " << minPower << " |\n";
+    }
+
+    
+
+    markdownFile.close();
 
 
     nvmlShutdown();
+
+
     return 0;
 }
