@@ -5,7 +5,7 @@ The GPU Power Benchmark repository is a tool for assessing the power efficiency 
 
 ## Prerequisites
 Ensure you have the following installed:
-- Python 3.x
+- Python 3.x >= 3.7
 - NVIDIA CUDA Toolkit (if you wish to compile custom hardware workloads)
 
 ## Getting Started
