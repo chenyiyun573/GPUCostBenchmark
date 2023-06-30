@@ -7,7 +7,7 @@ This repo has not been completed yet as a comprehensive benchmark.(20230630) But
 
 ## Prerequisites
 Ensure you have the following installed:
-- Python 3.x
+- Python 3.x >= 3.7
 - NVIDIA CUDA Toolkit (if you wish to compile custom hardware workloads)
 Recommend CUDA11.7, and there are some errors to install python packages using old cuda toolkit. 
 

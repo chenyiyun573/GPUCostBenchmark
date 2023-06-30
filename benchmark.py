@@ -35,7 +35,9 @@ def execute_python_script(script_path):
     process = subprocess.run(['python3', script_path], stdout=subprocess.PIPE, universal_newlines=True)
     return process.stdout
 
-
+def output_configuration():
+    with open('./results/GPUinfo.md', 'w') as file:
+        subprocess.run('nvidia-smi', stdout=file, shell=True, text=True)
 
 # Functions for different parts
 def pre_execute():
@@ -58,6 +60,7 @@ def application_execute():
 # Main script
 if __name__ == '__main__':
     os.makedirs('results', exist_ok=True)
+    output_configuration()
     
     selected_parts = ["PreExecute","Hardware","Application"]
     
