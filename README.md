@@ -3,10 +3,13 @@
 ## Introduction
 The GPU Power Benchmark repository is a tool for assessing the power efficiency of GPUs. It is capable of providing performance and power consumption data under various AI workloads and GPU stress tests.
 
+This repo has not been completed yet as a comprehensive benchmark.(20230630) But all code can work now. The gpu hammer src kernels have not been verified or modified for benchmarking now. 
+
 ## Prerequisites
 Ensure you have the following installed:
 - Python 3.x
 - NVIDIA CUDA Toolkit (if you wish to compile custom hardware workloads)
+Recommend CUDA11.7, and there are some errors to install python packages using old cuda toolkit. 
 
 ## Getting Started
 Follow these steps to get the GPU Power Benchmark tool up and running on your system.
@@ -54,7 +57,7 @@ This command compiles the hardware workload part using the NVIDIA CUDA Compiler 
 
 ### 5. Result
 All results will be output into the folder `./results/`.
-1. model_results.md is for models trainning or inference.
+1. model_results.md is for models trainning or inference with step/(s*watt) as the Power Metric
 2. hammer.md is the FLOPS/watt metric for Hardware workload.
 3. See `./results/idle` for idle measurement results. 
 
@@ -78,7 +81,22 @@ Additionally, the influence of the power supply, the source of power, and variou
 ### Hardware Compatibility
 Currently, the GPU Power Benchmark tool supports only NVIDIA GPUs. Compatibility with GPUs from other manufacturers is not available at this time. Users are encouraged to verify the compatibility of their hardware before using this tool.
 
+## Power Metric
+### For models training and inference:
+The sampling frequency is 10Hz in a seperate process.
+Start to sample at the beginning of model training or inference iterations, and end just after iterations completed.
+We excluded the initial and final 20% of the power data series and focused solely on the middle 60% to calculate the power metric.
 
+Performance: 1000/step time(in ms)
+Power Efficiency: Performance/Watt = step/(s*watt)
+
+
+### For operations stress test:
+The sampling frequency is 10Hz in a seperate process.
+Sleep 8s before the kernel starts and after the kernel ends. Get samples along kernel running.
+
+Performance: FLOPS
+Power Efficiency: FLOPS/watt
 
 
 
@@ -87,5 +105,4 @@ You can contribute to this project by submitting issues or pull requests. Feel f
 
 ## License
 The application workload part is based on Superbench by Microsoft. 
-This project is open source and available under the [MIT License](LICENSE).
-
+The hardware stress test part is based on Util_GPUModel by Microsoft.
