@@ -21,7 +21,7 @@ Start by cloning the repository to your local machine. Use the following command
 git clone https://github.com/chenyiyun573/GPUCostBenchmark.git
 ```
 
-Replace `(https://github.com/chenyiyun573/GPUCostBenchmark.git)` with the URL of this repository.
+
 
 ### 2. Install Dependencies
 Navigate to the repository directory and install the required Python dependencies with the following command:
@@ -41,7 +41,7 @@ Replace `benchmark.py` with the appropriate script name if different.
 
 
 ### 4. Choose Models in Application Workload (Optional)
-
+TODO
 
 ### 4. Compile Hardware Workload (Optional)
 Currently, only fp32 and fp64 are supported and FLOPS metric is provided only for these two workload. 
