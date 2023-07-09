@@ -18,10 +18,10 @@ Follow these steps to get the GPU Power Benchmark tool up and running on your sy
 Start by cloning the repository to your local machine. Use the following command:
 
 ```sh
-git clone <REPOSITORY_URL>
+git clone https://github.com/chenyiyun573/GPUCostBenchmark.git
 ```
 
-Replace `<REPOSITORY_URL>` with the URL of this repository.
+Replace `(https://github.com/chenyiyun573/GPUCostBenchmark.git)` with the URL of this repository.
 
 ### 2. Install Dependencies
 Navigate to the repository directory and install the required Python dependencies with the following command:
